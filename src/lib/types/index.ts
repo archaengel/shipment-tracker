@@ -8,6 +8,7 @@ export interface Shipment {
   cargo: Cargo[];
   mode: ShippingMode;
   origin: string;
+  destination: string;
   services: Service[];
   total: number;
   status: Status;
