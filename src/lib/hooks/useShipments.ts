@@ -1,15 +1,26 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { usePaginatedQuery } from 'react-query';
 import { Shipment, ShipmentsData } from '../types';
 
-const getShipments = async (): Promise<ShipmentsData> => {
-  const { data } = await axios.get<Shipment[]>(
-    'http://localhost:3001/shipments'
+interface ShipmentsVariables {
+  page: number;
+  limit: number;
+}
+
+const getShipments = async (
+  _key: string,
+  { page, limit }: ShipmentsVariables
+): Promise<ShipmentsData> => {
+  const { data, headers } = await axios.get<Shipment[]>(
+    `http://localhost:3001/shipments?_page=${page}&_limit=${limit}`
   );
 
-  return { shipments: data };
+  return { shipments: data, total: headers['x-total-count'] };
 };
 
-export const useShipments = () => {
-  return useQuery<ShipmentsData, 'shipments'>('shipments', getShipments);
+export const useShipments = ({ page, limit }: ShipmentsVariables) => {
+  return usePaginatedQuery<ShipmentsData, ['shipments', ShipmentsVariables]>(
+    ['shipments', { page, limit }],
+    getShipments
+  );
 };

@@ -1,5 +1,6 @@
 export type ShipmentsData = {
   shipments: Shipment[];
+  total: number;
 };
 
 export interface Shipment {
@@ -16,25 +17,30 @@ export interface Shipment {
   type: ContainerLoad;
 }
 
-interface Cargo {
+export interface Cargo {
   type: string;
   description: string;
   volume: number;
 }
 
 interface Customs {
-  type: 'customs';
+  type: ServiceType.CUSTOMS;
 }
 
-interface Insurace {
-  type: 'insurance';
+interface Insurance {
+  type: ServiceType.INSURANCE;
   value?: number;
+}
+
+export enum ServiceType {
+  INSURANCE = 'insurance',
+  CUSTOMS = 'customs',
 }
 
 type ShippingMode = 'sea' | 'air';
 
 type ContainerLoad = 'LCL' | 'FCL';
 
-type Status = 'ACTIVE' | 'NEW' | 'COMPLETED';
+export type Status = 'ACTIVE' | 'NEW' | 'COMPLETED';
 
-type Service = Customs | Insurace;
+export type Service = Customs | Insurance;

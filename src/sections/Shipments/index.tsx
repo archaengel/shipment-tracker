@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, List } from 'antd';
 import { Shipment } from '../../lib/types';
 import { useShipments } from '../../lib/hooks';
-import { ShipmentCard } from './components';
+import { ShipmentCard, ShipmentsPagination } from './components';
 import styled from 'styled-components';
 
 const { Content: AntdContent } = Layout;
@@ -15,8 +15,11 @@ const ListItem = styled(List.Item)`
   height: 100%;
 `;
 
+const PAGE_SIZE = 20;
+
 export const Shipments = () => {
-  const { status, data } = useShipments();
+  const [page, setPage] = useState(1);
+  const { status, latestData } = useShipments({ page, limit: PAGE_SIZE });
 
   if (status === 'loading') {
     return <div>loading...</div>;
@@ -26,17 +29,28 @@ export const Shipments = () => {
     return <div>there was an error</div>;
   }
 
-  return (
-    <Content>
-      <List
-        grid={{ gutter: 8, xl: 4, lg: 2, md: 1 }}
-        dataSource={data?.shipments}
-        renderItem={(shipment: Shipment) => (
-          <ListItem>
-            <ShipmentCard shipment={shipment} />
-          </ListItem>
-        )}
-      ></List>
-    </Content>
-  );
+  const shipmentsSectionElement =
+    latestData && latestData.shipments.length ? (
+      <>
+        <ShipmentsPagination
+          page={page}
+          limit={PAGE_SIZE}
+          total={latestData.total}
+          setPage={setPage}
+        />
+        <List
+          grid={{ gutter: 8, xl: 3, lg: 2, md: 1 }}
+          dataSource={latestData.shipments}
+          renderItem={(shipment: Shipment) => (
+            <ListItem key={`${shipment.id}`}>
+              <ShipmentCard shipment={shipment} />
+            </ListItem>
+          )}
+        ></List>
+      </>
+    ) : (
+      <div>empty</div>
+    );
+
+  return <Content>{shipmentsSectionElement}</Content>;
 };
