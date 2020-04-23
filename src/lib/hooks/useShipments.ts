@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { usePaginatedQuery } from 'react-query';
+import orderBy from 'lodash/fp/orderBy';
 import { Shipment, ShipmentsData, ShipmentsOrder } from '../types';
 
 interface ShipmentsVariables {
@@ -9,30 +10,31 @@ interface ShipmentsVariables {
   id?: string;
 }
 
+export const orderShipmentsBy = (order: ShipmentsOrder) => {
+  switch (order) {
+    case ShipmentsOrder.ID_LOW_TO_HIGH:
+      return orderBy<Shipment>(['id'], ['asc']);
+    case ShipmentsOrder.ID_HIGH_TO_LOW:
+      return orderBy<Shipment>(['id'], ['desc']);
+    case ShipmentsOrder.NAME_LOW_TO_HIGH:
+      return orderBy<Shipment>(['name'], ['asc']);
+    case ShipmentsOrder.NAME_HIGH_TO_LOW:
+      return orderBy<Shipment>(['name'], ['desc']);
+  }
+};
+
 const getShipments = async (
   _key: string,
   { page, order, limit, id }: ShipmentsVariables
 ): Promise<ShipmentsData> => {
   const idSlug = id ? `&id_like=${id}` : id;
-  const getOrderSlug = (order: ShipmentsOrder) => {
-    switch (order) {
-      case ShipmentsOrder.ID_LOW_TO_HIGH:
-        return '&_sort=id&_order=asc';
-      case ShipmentsOrder.ID_HIGH_TO_LOW:
-        return '&_sort=id&_order=desc';
-      case ShipmentsOrder.NAME_LOW_TO_HIGH:
-        return '&_sort=name&_order=asc';
-      case ShipmentsOrder.NAME_HIGH_TO_LOW:
-        return '&_sort=name&_order=desc';
-    }
-  };
   const { data, headers } = await axios.get<Shipment[]>(
-    `http://localhost:3001/shipments?_page=${page}&_limit=${limit}${idSlug}${getOrderSlug(
-      order
-    )}`
+    `http://localhost:3001/shipments?_page=${page}&_limit=${limit}${idSlug}`
   );
 
-  return { shipments: data, total: headers['x-total-count'] };
+  const orderedShipments = orderShipmentsBy(order)(data);
+
+  return { shipments: orderedShipments, total: headers['x-total-count'] };
 };
 
 export const useShipments = ({
