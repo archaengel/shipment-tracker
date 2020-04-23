@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Layout as AntdLayout } from 'antd';
-import { Shipments } from './sections';
+import { Affix, Layout as AntdLayout } from 'antd';
+import { Shipments, AppHeader } from './sections';
 import styled from 'styled-components';
 import 'antd/dist/antd.css';
 
@@ -15,7 +15,10 @@ function App() {
     <div>
       <Layout>
         <Router>
-          <Route exact path="/">
+          <Affix offsetTop={0}>
+            <AppHeader />
+          </Affix>
+          <Route exact path="/shipments/:id?">
             <Shipments />
           </Route>
         </Router>
