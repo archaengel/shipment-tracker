@@ -36,7 +36,7 @@ export const Shipments = () => {
   );
   const { id } = useParams<MatchParams>();
   const idRef = useRef<string>(id);
-  const { status, resolvedData } = useShipments({
+  const { status, data } = useShipments({
     page,
     order,
     limit: PAGE_SIZE,
@@ -57,20 +57,20 @@ export const Shipments = () => {
   }
 
   const shipmentsSectionElement =
-    resolvedData && resolvedData.shipments.length ? (
+    data && data.shipments.length ? (
       <>
         <ShipmentsHeader>
           <ShipmentsSort order={order} setOrder={setOrder} />
           <ShipmentsPagination
             page={page}
             limit={PAGE_SIZE}
-            total={resolvedData.total}
+            total={data.total}
             setPage={setPage}
           />
         </ShipmentsHeader>
         <List
           grid={{ gutter: 8, xl: 3, lg: 2, md: 1 }}
-          dataSource={resolvedData.shipments}
+          dataSource={data.shipments}
           renderItem={(shipment: Shipment) => (
             <ListItem key={`${shipment.id}`}>
               <ShipmentCard shipment={shipment} />

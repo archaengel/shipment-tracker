@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { usePaginatedQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import orderBy from 'lodash/fp/orderBy';
 import { Shipment, ShipmentsData, ShipmentsOrder } from '../types';
 
@@ -28,13 +28,16 @@ const getShipments = async (
   { page, order, limit, id }: ShipmentsVariables
 ): Promise<ShipmentsData> => {
   const idSlug = id ? `&id_like=${id}` : id;
-  const { data, headers } = await axios.get<Shipment[]>(
-    `http://localhost:3001/shipments?_page=${page}&_limit=${limit}${idSlug}`
+  const { data } = await axios.get<Shipment[]>(
+    `http://localhost:3001/shipments?${idSlug}`
   );
 
+  const total = data.length;
   const orderedShipments = orderShipmentsBy(order)(data);
+  const cursor = page > 1 ? (page - 1) * limit : 0;
+  const shipmentsPage = [...orderedShipments].slice(cursor, cursor + limit);
 
-  return { shipments: orderedShipments, total: headers['x-total-count'] };
+  return { shipments: shipmentsPage, total };
 };
 
 export const useShipments = ({
@@ -43,7 +46,7 @@ export const useShipments = ({
   limit,
   id = '',
 }: ShipmentsVariables) => {
-  return usePaginatedQuery<ShipmentsData, ['shipments', ShipmentsVariables]>(
+  return useQuery<ShipmentsData, ['shipments', ShipmentsVariables]>(
     ['shipments', { page, order, limit, id }],
     getShipments
   );
