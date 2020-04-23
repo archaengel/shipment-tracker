@@ -44,3 +44,10 @@ type ContainerLoad = 'LCL' | 'FCL';
 export type Status = 'ACTIVE' | 'NEW' | 'COMPLETED';
 
 export type Service = Customs | Insurance;
+
+export enum ShipmentsOrder {
+  NAME_LOW_TO_HIGH = 'NAME_LOW_TO_HIGH',
+  NAME_HIGH_TO_LOW = 'NAME_HIGH_TO_LOW',
+  ID_LOW_TO_HIGH = 'ID_LOW_TO_HIGH',
+  ID_HIGH_TO_LOW = 'ID_HIGH_TO_LOW',
+}
