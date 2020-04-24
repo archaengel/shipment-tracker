@@ -7,9 +7,16 @@ import styled from 'styled-components';
 
 const { Text: AntdText, Paragraph } = Typography;
 
-const ID = styled(AntdText)`
+const ID = styled.div`
   flex-grow: 0;
-  flex-basis: 120px;
+  flex-basis: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+`;
+
+const IDText = styled(AntdText)`
+  margin-bottom: 5px;
 `;
 
 const CardHeader = styled.header`
@@ -19,17 +26,29 @@ const CardHeader = styled.header`
 interface Props {
   shipment: {
     id: string;
+    userId: string;
     name: string;
     origin: string;
     destination: string;
     status: string;
     cargo: Cargo[];
     services: Service[];
+    total: number;
   };
 }
 
 export const ShipmentCard = ({ shipment }: Props) => {
-  const { id, name, origin, destination, status, cargo, services } = shipment;
+  const {
+    id,
+    userId,
+    name,
+    origin,
+    destination,
+    status,
+    cargo,
+    services,
+    total,
+  } = shipment;
 
   return (
     <Card hoverable>
@@ -38,7 +57,12 @@ export const ShipmentCard = ({ shipment }: Props) => {
           {name}
         </Text>
         <ID>
-          ID: <Text code>{id}</Text>
+          <IDText>
+            Shipment ID: <Text code>{id}</Text>
+          </IDText>
+          <IDText>
+            User ID: <Text code>{userId}</Text>
+          </IDText>
         </ID>
       </CardHeader>
       <Paragraph>
@@ -54,6 +78,14 @@ export const ShipmentCard = ({ shipment }: Props) => {
       <Paragraph>
         <CargoTags cargo={cargo} />
         <ServiceTags services={services} />
+      </Paragraph>
+      <Paragraph>
+        <Text>
+          <Text mark strong>
+            [TOTAL]:
+          </Text>
+          {` ${total}`}
+        </Text>
       </Paragraph>
       <Tag>{status}</Tag>
     </Card>
