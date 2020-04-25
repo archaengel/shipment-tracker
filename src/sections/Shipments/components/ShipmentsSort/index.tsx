@@ -18,10 +18,14 @@ export const ShipmentsSort = ({ order, setOrder }: Props) => {
   return (
     <SortWrapper>
       <Select value={order} onChange={setOrder}>
-        <Option value={ShipmentsOrder.NAME_LOW_TO_HIGH}>Name: a -> z</Option>
-        <Option value={ShipmentsOrder.NAME_HIGH_TO_LOW}>Name: z -> a</Option>
-        <Option value={ShipmentsOrder.ID_LOW_TO_HIGH}>ID: Low to High</Option>
-        <Option value={ShipmentsOrder.ID_HIGH_TO_LOW}>ID: High to Low</Option>
+        <Option value={ShipmentsOrder.NAME_ASC}>Name: a -> z</Option>
+        <Option value={ShipmentsOrder.NAME_DESC}>Name: z -> a</Option>
+        <Option value={ShipmentsOrder.ID_ASC}>Shipment ID: Low to High</Option>
+        <Option value={ShipmentsOrder.ID_DESC}>Shipment ID: High to Low</Option>
+        <Option value={ShipmentsOrder.TOTAL_ASC}>Total: Low to High</Option>
+        <Option value={ShipmentsOrder.TOTAL_DESC}>Total: High to Low</Option>
+        <Option value={ShipmentsOrder.USERID_ASC}>User ID: Low to High</Option>
+        <Option value={ShipmentsOrder.USERID_DESC}>User ID: High to Low</Option>
       </Select>
     </SortWrapper>
   );

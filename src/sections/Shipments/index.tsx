@@ -31,9 +31,7 @@ interface MatchParams {
 
 export const Shipments = () => {
   const [page, setPage] = useState<number>(1);
-  const [order, setOrder] = useState<ShipmentsOrder>(
-    ShipmentsOrder.ID_LOW_TO_HIGH
-  );
+  const [order, setOrder] = useState<ShipmentsOrder>(ShipmentsOrder.ID_ASC);
   const { id } = useParams<MatchParams>();
   const idRef = useRef<string>(id);
   const { status, data } = useShipments({
