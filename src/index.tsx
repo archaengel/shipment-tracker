@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Affix, Layout as AntdLayout } from 'antd';
 import { Shipments, AppHeader } from './sections';
 import styled from 'styled-components';
@@ -18,6 +18,9 @@ function App() {
           <Affix offsetTop={0}>
             <AppHeader />
           </Affix>
+          <Route exact path="/">
+            <Redirect to="/shipments" />
+          </Route>
           <Route exact path="/shipments/:id?">
             <Shipments />
           </Route>
