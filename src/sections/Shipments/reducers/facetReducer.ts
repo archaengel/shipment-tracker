@@ -23,6 +23,11 @@ export const facetReducer = (state: ShipmentsFacets, action: FacetAction) => {
         ...state,
         types: action.payload,
       };
+    case FacetActionType.UPDATE_STATUSES:
+      return {
+        ...state,
+        statuses: action.payload,
+      };
     case FacetActionType.UPDATE_CARGO:
       return {
         ...state,

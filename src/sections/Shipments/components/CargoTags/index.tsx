@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Tag } from 'antd';
-import { Text } from '../../../../lib/base';
+import { Text } from '../../../../lib/components';
 import uniq from 'lodash/fp/uniq';
 import map from 'lodash/fp/map';
 import pipe from 'lodash/fp/pipe';

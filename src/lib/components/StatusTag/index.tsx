@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { PresetStatusColorType } from 'antd/lib/_util/colors';
-import { Status } from '../../../../lib/types';
+import { Status } from '../../types';
 
 interface Props {
   status: Status;

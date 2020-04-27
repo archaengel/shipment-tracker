@@ -1,6 +1,5 @@
 export interface ShipmentsData {
   shipments: Shipment[];
-  total: number;
   facets: ShipmentsFacets;
 }
 
@@ -90,4 +89,7 @@ export interface ShipmentsFacets {
   modes: string[];
   cargo: string[];
   services: string[];
+  statuses: string[];
 }
+
+export type ElementOf<T> = T extends (infer U)[] ? U : never;

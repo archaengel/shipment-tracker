@@ -10,6 +10,7 @@ export const createFacets = (data: Shipment[]) => ({
   origins: pickUniq<Shipment, 'origin'>('origin')(data),
   types: pickUniq<Shipment, 'type'>('type')(data),
   modes: pickUniq<Shipment, 'mode'>('mode')(data),
+  statuses: pickUniq<Shipment, 'status'>('status')(data),
   cargo: pickUniq<Cargo, 'type'>('type')(
     flatten(pickUniq<Shipment, 'cargo'>('cargo')(data))
   ),

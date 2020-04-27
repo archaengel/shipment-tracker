@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Tag } from 'antd';
-import { Text } from '../../../../lib/base';
+import { Text } from '../../../../lib/components';
 import sortedUniq from 'lodash/fp/sortedUniq';
 import map from 'lodash/fp/map';
 import orderBy from 'lodash/fp/orderBy';

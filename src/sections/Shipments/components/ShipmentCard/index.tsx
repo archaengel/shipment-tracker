@@ -1,27 +1,27 @@
 import React from 'react';
-import { Card, Tag, Typography } from 'antd';
+import { Card, Typography } from 'antd';
 import { Link } from 'react-router-dom';
-import { Text } from '../../../../lib/base';
+import { Text, Meta } from '../../../../lib/components';
 import { CargoTags, ServiceTags } from '../../components';
-import { Cargo, Service } from '../../../../lib/types';
+import {
+  Cargo,
+  Service,
+  Status,
+  ShippingMode,
+  ContainerLoad,
+} from '../../../../lib/types';
 import styled from 'styled-components';
 
-const { Text: AntdText, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
-const ID = styled.div`
-  flex-grow: 0;
-  flex-basis: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-`;
-
-const IDText = styled(AntdText)`
-  margin-bottom: 5px;
+const CardTitle = styled(Text)`
+  font-size: 16px;
 `;
 
 const CardHeader = styled.header`
   display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
 interface Props {
@@ -31,10 +31,12 @@ interface Props {
     name: string;
     origin: string;
     destination: string;
-    status: string;
+    status: Status;
     cargo: Cargo[];
     services: Service[];
     total: number;
+    type: ContainerLoad;
+    mode: ShippingMode;
   };
 }
 
@@ -49,23 +51,16 @@ export const ShipmentCard = ({ shipment }: Props) => {
     cargo,
     services,
     total,
+    type,
+    mode,
   } = shipment;
 
   return (
     <Link to={`/shipment/${id}`}>
       <Card hoverable>
         <CardHeader>
-          <Text strong ellipsis>
-            {name}
-          </Text>
-          <ID>
-            <IDText>
-              Shipment ID: <Text code>{id}</Text>
-            </IDText>
-            <IDText>
-              User ID: <Text code>{userId}</Text>
-            </IDText>
-          </ID>
+          <CardTitle strong>{name}</CardTitle>
+          <Meta id={id} userId={userId} status={status} />
         </CardHeader>
         <Paragraph>
           <Text ellipsis>
@@ -82,14 +77,19 @@ export const ShipmentCard = ({ shipment }: Props) => {
           <ServiceTags services={services} />
         </Paragraph>
         <Paragraph>
+          <Text mark>
+            {type === 'FCL'
+              ? 'A full container load'
+              : 'Less than a full container load'}{' '}
+            travelling by {mode}.
+          </Text>
+        </Paragraph>
+        <Paragraph>
           <Text>
-            <Text mark strong>
-              [TOTAL]:
-            </Text>
+            <Text strong>[TOTAL]:</Text>
             {` ${total}`}
           </Text>
         </Paragraph>
-        <Tag>{status}</Tag>
       </Card>
     </Link>
   );

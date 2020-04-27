@@ -1,17 +1,28 @@
 import React, { useReducer } from 'react';
 import { FilterBlock } from './components';
-import { FacetActionType } from '../../actions/types';
+import { FacetActionType, FacetAction } from '../../actions/types';
 import { ShipmentsFacets } from '../../../../lib/types';
-import { facetReducer } from '../../reducers';
 
 interface Props {
   facets: Readonly<ShipmentsFacets>;
   selectedFilters: ShipmentsFacets;
+  dispatch: (action: FacetAction) => void;
 }
 
-export const ShipmentFilters = ({ facets, selectedFilters }: Props) => {
-  const { destinations, origins, modes, types, cargo, services } = facets;
-  const [filters, dispatch] = useReducer(facetReducer, selectedFilters);
+export const ShipmentFilters = ({
+  facets,
+  selectedFilters,
+  dispatch,
+}: Props) => {
+  const {
+    destinations,
+    origins,
+    modes,
+    types,
+    statuses,
+    cargo,
+    services,
+  } = facets;
   return (
     <div>
       <FilterBlock
@@ -41,6 +52,13 @@ export const ShipmentFilters = ({ facets, selectedFilters }: Props) => {
         dataSource={types}
         filters={selectedFilters.types}
         actionType={FacetActionType.UPDATE_TYPES}
+      />
+      <FilterBlock
+        label="Status"
+        dispatch={dispatch}
+        dataSource={statuses}
+        filters={selectedFilters.types}
+        actionType={FacetActionType.UPDATE_STATUSES}
       />
       <FilterBlock
         label="Cargo"

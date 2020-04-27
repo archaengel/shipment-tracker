@@ -14,7 +14,7 @@ interface Props {
 export const FilterTag = ({ filter, filters, dispatch, actionType }: Props) => {
   const [isChecked, setIsChecked] = useState(true);
   const handleChange = (checked: boolean) => {
-    if (checked) {
+    if (!checked) {
       dispatch({ type: actionType, payload: [...filters, filter] });
     } else {
       dispatch({

@@ -5,6 +5,7 @@ export enum FacetActionType {
   UPDATE_TYPES = 'UPDATE_TYPES',
   UPDATE_CARGO = 'UPDATE_CARGO',
   UPDATE_SERVICES = 'UPDATE_SERVICES',
+  UPDATE_STATUSES = 'UPDATE_STATUSES',
 }
 
 export type FacetAction =
@@ -12,5 +13,6 @@ export type FacetAction =
   | { type: FacetActionType.UPDATE_ORIGINS; payload: string[] }
   | { type: FacetActionType.UPDATE_MODES; payload: string[] }
   | { type: FacetActionType.UPDATE_TYPES; payload: string[] }
+  | { type: FacetActionType.UPDATE_STATUSES; payload: string[] }
   | { type: FacetActionType.UPDATE_CARGO; payload: string[] }
   | { type: FacetActionType.UPDATE_SERVICES; payload: string[] };

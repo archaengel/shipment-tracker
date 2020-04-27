@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Typography, List } from 'antd';
 import { FilterTag } from '..';
 import { FacetActionType, FacetAction } from '../../../../actions/types';
@@ -20,9 +20,6 @@ export const FilterBlock = ({
   filters,
   actionType,
 }: Props) => {
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
   return (
     <div>
       <Text strong>Filter by {label}</Text>
