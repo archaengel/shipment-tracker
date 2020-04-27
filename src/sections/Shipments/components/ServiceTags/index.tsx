@@ -1,8 +1,9 @@
 import React from 'react';
 import { List, Tag } from 'antd';
-import { Text } from '../../../../lib/base';
-import uniq from 'lodash/fp/uniq';
+import { Text } from '../../../../lib/components';
+import sortedUniq from 'lodash/fp/sortedUniq';
 import map from 'lodash/fp/map';
+import orderBy from 'lodash/fp/orderBy';
 import pipe from 'lodash/fp/pipe';
 import { Service, ServiceType } from '../../../../lib/types';
 
@@ -11,9 +12,15 @@ interface Props {
 }
 
 export const ServiceTags = ({ services }: Props) => {
-  const uniqServiceTypes = pipe<[Service[]], ServiceType[], ServiceType[]>(
+  const uniqServiceTypes = pipe<
+    [Service[]],
+    Service[],
+    ServiceType[],
+    ServiceType[]
+  >(
+    orderBy<Service>(['type'], ['asc']),
     map<Service, ServiceType>((c) => c.type),
-    uniq
+    sortedUniq
   )(services);
 
   const renderTag = (type: ServiceType) => {

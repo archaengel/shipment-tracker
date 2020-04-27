@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Affix, Layout as AntdLayout } from 'antd';
-import { Shipments, AppHeader } from './sections';
+import { Shipments, Shipment, AppHeader } from './sections';
 import styled from 'styled-components';
 import 'antd/dist/antd.css';
 
@@ -23,6 +23,9 @@ function App() {
           </Route>
           <Route exact path="/shipments/:id?">
             <Shipments />
+          </Route>
+          <Route exact path="/shipment/:id">
+            <Shipment />
           </Route>
         </Router>
       </Layout>

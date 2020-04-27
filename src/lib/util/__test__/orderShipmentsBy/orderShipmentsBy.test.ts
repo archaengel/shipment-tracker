@@ -1,5 +1,5 @@
-import { orderShipmentsBy } from '..';
-import { ShipmentsOrder } from '../../types';
+import { orderShipmentsBy } from '../../';
+import { ShipmentsOrder } from '../../../types';
 import {
   idFixtures as ids,
   nameFixtures as names,

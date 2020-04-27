@@ -1,5 +1,5 @@
-import { createFixtures } from '../../util';
-import { Shipment } from '../../types';
+import { createFixtures } from '../../../util';
+import { Shipment } from '../../../types';
 
 export const idFixtures = {
   unordered: createFixtures<Shipment>(['id'], [['s1'], ['s3'], ['s4'], ['s2']]),

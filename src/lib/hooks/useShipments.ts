@@ -1,42 +1,20 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { orderShipmentsBy } from '../util';
-import { ShipmentsData, ShipmentJSON, ShipmentsOrder } from '../types';
+import { createFacets } from '../util';
+import { ShipmentsData, ShipmentJSON } from '../types';
 import { fromShipmentJSON } from '../util/fromShipmentJSON';
 
-interface ShipmentsVariables {
-  page: number;
-  limit: number;
-  order: ShipmentsOrder;
-  id?: string;
-}
-
-const getShipments = async (
-  _key: string,
-  { page, order, limit, id }: ShipmentsVariables
-): Promise<ShipmentsData> => {
-  const idSlug = id ? `&id_like=${id}` : id;
+const getShipments = async (_key: string): Promise<ShipmentsData> => {
   const { data } = await axios.get<ShipmentJSON[]>(
-    `http://localhost:3001/shipments?${idSlug}`
+    `http://localhost:3001/shipments`
   );
 
-  const total = data.length;
   const parsedShipments = data.map(fromShipmentJSON);
-  const orderedShipments = orderShipmentsBy(order)(parsedShipments);
-  const cursor = page > 1 ? (page - 1) * limit : 0;
-  const shipmentsPage = [...orderedShipments].slice(cursor, cursor + limit);
+  const shipmentFacets = createFacets(parsedShipments);
 
-  return { shipments: shipmentsPage, total };
+  return { shipments: parsedShipments, facets: shipmentFacets };
 };
 
-export const useShipments = ({
-  page,
-  order,
-  limit,
-  id = '',
-}: ShipmentsVariables) => {
-  return useQuery<ShipmentsData, ['shipments', ShipmentsVariables]>(
-    ['shipments', { page, order, limit, id }],
-    getShipments
-  );
+export const useShipments = () => {
+  return useQuery<ShipmentsData, ['shipments']>(['shipments'], getShipments);
 };
