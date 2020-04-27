@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { postShipmentName } from '../../lib/hooks';
+import { patchShipmentName } from '../../lib/api';
 import { useParams } from 'react-router';
 import { useShipment } from '../../lib/hooks';
 import { Button, Form, Tooltip, Typography, Input as AntdInput } from 'antd';
@@ -44,7 +44,7 @@ export const Shipment = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const { id } = useParams<MatchParams>();
   const { status, data, refetch } = useShipment({ id });
-  const [mutate] = useMutation(postShipmentName, {
+  const [mutate] = useMutation(patchShipmentName, {
     onSuccess: () => {
       setIsEditingTitle(false);
       refetch();

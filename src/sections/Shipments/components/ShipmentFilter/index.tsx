@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { FilterBlock } from './components';
 import { FacetActionType, FacetAction } from '../../actions/types';
 import { ShipmentsFacets } from '../../../../lib/types';
