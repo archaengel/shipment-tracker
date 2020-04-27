@@ -6,6 +6,7 @@
   "author": "NEO Tracker",
   "license": "MIT",
   "scripts": {
+    "deploy": "yarn build && serve -s build",
     "server": "json-server --watch db.json --port 3001",
     "start": "react-scripts start",
     "build": "react-scripts build",

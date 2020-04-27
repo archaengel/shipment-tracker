@@ -1,4 +1,3 @@
-import { useMutation } from 'react-query';
 import axios from 'axios';
 
 interface UpdateShipmentNameVariables {
@@ -6,7 +5,7 @@ interface UpdateShipmentNameVariables {
   name: string;
 }
 
-export const postShipmentName = async ({
+export const patchShipmentName = async ({
   id,
   name,
 }: UpdateShipmentNameVariables) => {
