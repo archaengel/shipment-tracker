@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Tag, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 import { Text } from '../../../../lib/base';
 import { CargoTags, ServiceTags } from '../../components';
 import { Cargo, Service } from '../../../../lib/types';
@@ -51,43 +52,45 @@ export const ShipmentCard = ({ shipment }: Props) => {
   } = shipment;
 
   return (
-    <Card hoverable>
-      <CardHeader>
-        <Text strong ellipsis>
-          {name}
-        </Text>
-        <ID>
-          <IDText>
-            Shipment ID: <Text code>{id}</Text>
-          </IDText>
-          <IDText>
-            User ID: <Text code>{userId}</Text>
-          </IDText>
-        </ID>
-      </CardHeader>
-      <Paragraph>
-        <Text ellipsis>
-          <Text strong>From: </Text>
-          {origin}
-        </Text>
-        <Text ellipsis>
-          <Text strong>To: </Text>
-          {destination}
-        </Text>
-      </Paragraph>
-      <Paragraph>
-        <CargoTags cargo={cargo} />
-        <ServiceTags services={services} />
-      </Paragraph>
-      <Paragraph>
-        <Text>
-          <Text mark strong>
-            [TOTAL]:
+    <Link to={`/shipment/${id}`}>
+      <Card hoverable>
+        <CardHeader>
+          <Text strong ellipsis>
+            {name}
           </Text>
-          {` ${total}`}
-        </Text>
-      </Paragraph>
-      <Tag>{status}</Tag>
-    </Card>
+          <ID>
+            <IDText>
+              Shipment ID: <Text code>{id}</Text>
+            </IDText>
+            <IDText>
+              User ID: <Text code>{userId}</Text>
+            </IDText>
+          </ID>
+        </CardHeader>
+        <Paragraph>
+          <Text ellipsis>
+            <Text strong>From: </Text>
+            {origin}
+          </Text>
+          <Text ellipsis>
+            <Text strong>To: </Text>
+            {destination}
+          </Text>
+        </Paragraph>
+        <Paragraph>
+          <CargoTags cargo={cargo} />
+          <ServiceTags services={services} />
+        </Paragraph>
+        <Paragraph>
+          <Text>
+            <Text mark strong>
+              [TOTAL]:
+            </Text>
+            {` ${total}`}
+          </Text>
+        </Paragraph>
+        <Tag>{status}</Tag>
+      </Card>
+    </Link>
   );
 };

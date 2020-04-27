@@ -1,17 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Layout, List } from 'antd';
+import { List } from 'antd';
+import { Content } from '../../lib/base';
 import { useParams } from 'react-router';
 import { Shipment, ShipmentsOrder } from '../../lib/types';
 import { useShipments } from '../../lib/hooks';
-import { ShipmentCard, ShipmentsPagination } from './components';
+import {
+  ShipmentCard,
+  ShipmentsPagination,
+  ShipmentFilters,
+} from './components';
 import styled from 'styled-components';
 import { ShipmentsSort } from './components/ShipmentsSort';
-
-const { Content: AntdContent } = Layout;
-
-const Content = styled(AntdContent)`
-  padding: 60px 120px;
-`;
 
 const ListItem = styled(List.Item)`
   height: 100%;
@@ -57,6 +56,7 @@ export const Shipments = () => {
   const shipmentsSectionElement =
     data && data.shipments.length ? (
       <>
+        <ShipmentFilters facets={data.facets} selectedFilters={data.facets} />
         <ShipmentsHeader>
           <ShipmentsSort order={order} setOrder={setOrder} />
           <ShipmentsPagination

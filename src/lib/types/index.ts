@@ -1,7 +1,8 @@
-export type ShipmentsData = {
+export interface ShipmentsData {
   shipments: Shipment[];
   total: number;
-};
+  facets: ShipmentsFacets;
+}
 
 export interface ShipmentJSON {
   id: string;
@@ -61,9 +62,9 @@ export enum ServiceType {
   CUSTOMS = 'customs',
 }
 
-type ShippingMode = 'sea' | 'air';
+export type ShippingMode = 'sea' | 'air';
 
-type ContainerLoad = 'LCL' | 'FCL';
+export type ContainerLoad = 'LCL' | 'FCL';
 
 export type Status = 'ACTIVE' | 'NEW' | 'COMPLETED';
 
@@ -80,4 +81,13 @@ export enum ShipmentsOrder {
   USERID_DESC = 'USERID_DESC',
   TOTAL_ASC = 'TOTAL_ASC',
   TOTAL_DESC = 'TOTAL_DESC',
+}
+
+export interface ShipmentsFacets {
+  destinations: string[];
+  origins: string[];
+  types: string[];
+  modes: string[];
+  cargo: string[];
+  services: string[];
 }

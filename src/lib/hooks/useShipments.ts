@@ -1,15 +1,30 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { orderShipmentsBy } from '../util';
-import { ShipmentsData, ShipmentJSON, ShipmentsOrder } from '../types';
+import filter from 'lodash/fp/filter';
+import { orderShipmentsBy, createFacets } from '../util';
+import {
+  Shipment,
+  ShipmentsData,
+  ShipmentJSON,
+  ShipmentsOrder,
+  ShipmentsFacets,
+} from '../types';
 import { fromShipmentJSON } from '../util/fromShipmentJSON';
 
 interface ShipmentsVariables {
   page: number;
   limit: number;
   order: ShipmentsOrder;
+  filters?: ShipmentsFacets;
   id?: string;
 }
+
+const filterByDestination = (
+  dests: string[]
+): ((collection: Shipment[]) => Shipment[]) => {
+  const destsSet = new Set(dests);
+  return filter((shipment: Shipment) => destsSet.has(shipment.destination));
+};
 
 const getShipments = async (
   _key: string,
@@ -22,11 +37,15 @@ const getShipments = async (
 
   const total = data.length;
   const parsedShipments = data.map(fromShipmentJSON);
-  const orderedShipments = orderShipmentsBy(order)(parsedShipments);
+  const shipmentFacets = createFacets(parsedShipments);
+  const filteredShipements = filterByDestination(shipmentFacets.destinations)(
+    parsedShipments
+  );
+  const orderedShipments = orderShipmentsBy(order)(filteredShipements);
   const cursor = page > 1 ? (page - 1) * limit : 0;
   const shipmentsPage = [...orderedShipments].slice(cursor, cursor + limit);
 
-  return { shipments: shipmentsPage, total };
+  return { shipments: shipmentsPage, total, facets: shipmentFacets };
 };
 
 export const useShipments = ({
