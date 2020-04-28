@@ -57,7 +57,7 @@ export const ShipmentFilters = ({
         label="Status"
         dispatch={dispatch}
         dataSource={statuses}
-        filters={selectedFilters.types}
+        filters={selectedFilters.statuses}
         actionType={FacetActionType.UPDATE_STATUSES}
       />
       <FilterBlock
